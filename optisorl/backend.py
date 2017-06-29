@@ -32,13 +32,13 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
                 return self.optimize_png(image_path)
             elif image_path.lower().endswith('.gif'):
                 return self.optimize_gif(image_path)
-            elif image_path.lower().endswith('.jpg'):
+            elif image_path.lower().endswith('.jpg') or image_path.lower().endswith('.jpeg'):
                 return self.optimize_jpg(image_path)
 
     def optimize_png(self, path):
         binary_location = getattr(
             settings,
-            'PNGQUANT_LOCATION',
+            'OPTISORL_PNG_LOCATION',
             'pngquant'
         )
         if not binary_location:
@@ -80,7 +80,7 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
     def optimize_gif(self, path):
         binary_location = getattr(
             settings,
-            'GIFSICLE_LOCATION',
+            'OPTISORL_GIF_LOCATION',
             'gifsicle'
         )
         if not binary_location:
@@ -117,8 +117,8 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
     def optimize_jpg(self, path):
         binary_location = getattr(
             settings,
-            'MOZJPEG_LOCATION',
-            'mozjpeg'
+            'OPTISORL_JPEG_LOCATION',
+            'jpegoptim'
         )
         if not binary_location:
             # it's probably been deliberately disabled
@@ -127,8 +127,8 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
         size_before = os.stat(path).st_size
         command = [
             binary_location,
-            '-outfile', tmp_path,
-            '-optimise', path,
+            '-m', '90',
+            '--strip-all', path,
         ]
         time_before = time.time()
         out, err = subprocess.Popen(
