@@ -127,7 +127,7 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
         size_before = os.stat(path).st_size
         command = [
             binary_location,
-            '-m', '90',
+            '-max=90',
             '--strip-all', path,
         ]
         time_before = time.time()
