@@ -121,7 +121,7 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
         if not binary_location:
             # it's probably been deliberately disabled
             return
-        tmp_path = path.lower().replace('.jpg', '.tmp.jpg')
+
         size_before = os.stat(path).st_size
         command = [
             binary_location,
@@ -135,9 +135,6 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
             stderr=subprocess.PIPE
         ).communicate()
         time_after = time.time()
-        if not os.path.isfile(tmp_path):
-            return
-        os.rename(tmp_path, path)
         os.chmod(path, 0o644)
         size_after = os.stat(path).st_size
         logger.info(
