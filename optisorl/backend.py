@@ -2,6 +2,7 @@ import logging
 import time
 import subprocess
 import os
+import stat
 
 from django.conf import settings
 
@@ -61,6 +62,7 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
         if not os.path.isfile(tmp_path):
             return
         os.rename(tmp_path, path)
+        os.chmod(path, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH | stat.S_IWUSR | stat.S_IWGRP)
         size_after = os.stat(path).st_size
         logger.info(
             'Reduced %s from %d to %d (took %.4fs)' % (
@@ -98,6 +100,7 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
         if not os.path.isfile(tmp_path):
             return
         os.rename(tmp_path, path)
+        os.chmod(path, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH | stat.S_IWUSR | stat.S_IWGRP)
         size_after = os.stat(path).st_size
         logger.info(
             'Reduced %s from %d to %d (took %.4fs)' % (
@@ -135,6 +138,7 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
         if not os.path.isfile(tmp_path):
             return
         os.rename(tmp_path, path)
+        os.chmod(path, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH | stat.S_IWUSR | stat.S_IWGRP)
         size_after = os.stat(path).st_size
         logger.info(
             'Reduced %s from %d to %d (took %.4fs)' % (
