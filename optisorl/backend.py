@@ -13,12 +13,7 @@ logger = logging.getLogger('optisorl')
 
 class OptimizingThumbnailBackend(ThumbnailBackend):
 
-    def _create_thumbnail(
-        self,
-        source_image,
-        geometry_string, options,
-        thumbnail
-    ):
+    def _create_thumbnail(self, source_image, geometry_string, options, thumbnail):
         """override so we have an opportunity to first optimize the
         resulting thumbnail before it gets saved."""
         super(OptimizingThumbnailBackend, self)._create_thumbnail(
@@ -50,7 +45,7 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
             binary_location,
             '-o', tmp_path,
             '--skip-if-larger',
-            '--',
+            '--quality=85',
             path,
         ]
         time_before = time.time()
@@ -127,7 +122,7 @@ class OptimizingThumbnailBackend(ThumbnailBackend):
         size_before = os.stat(path).st_size
         command = [
             binary_location,
-            '--max=90',
+            '--max=85',
             '--strip-all', path,
         ]
         time_before = time.time()
